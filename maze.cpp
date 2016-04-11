@@ -156,7 +156,87 @@ bool Maze::updatePlayer(char dir)
         return false;
     }
 
-    // Implement player moving and pushing here
+   switch(dir)
+   {
+    case 0:
+        if(!(isSquareWall(getPosPlayer()-this->m_col)))
+        {
+            if(!isSquareBox((getPosPlayer()-this->m_col)))
+            {
+            setPlayerPos(getPosPlayer()-this->m_col);
+            break;
+            }
+        }
+
+        if(isSquareBox((getPosPlayer()-this->m_col)))
+        {
+           if(!(isSquareBox((getPosPlayer()-2*this->m_col))))
+                {
+                setPlayerPos(getPosPlayer()-this->m_col);
+
+                break;
+                }
+        }
+    break;
+    case 1:
+        if(!(isSquareWall(getPosPlayer()+this->m_col)))
+        {
+            if(!isSquareBox((getPosPlayer()+this->m_col)))
+            {
+            setPlayerPos(getPosPlayer()+this->m_col);
+            break;
+            }
+        }
+
+        if(isSquareBox((getPosPlayer()+this->m_col)))
+        {
+           if(!(isSquareBox((getPosPlayer()+2*this->m_col))))
+                {
+                setPlayerPos(getPosPlayer()+this->m_col);
+                break;
+                }
+        }
+    break;
+    case 2:
+        if(!(isSquareWall(getPosPlayer()-1)))
+        {
+            if(!isSquareBox((getPosPlayer()-1)))
+            {
+            setPlayerPos(getPosPlayer()-1);
+            break;
+            }
+        }
+
+        if(isSquareBox((getPosPlayer()-1)))
+        {
+           if(!(isSquareBox((getPosPlayer()-2*1))))
+                {
+                setPlayerPos(getPosPlayer()-1);
+                break;
+                }
+        }
+    break;
+    case 3:
+        if(!(isSquareWall(getPosPlayer()+1)))
+        {
+            if(!isSquareBox((getPosPlayer()+1)))
+            {
+            setPlayerPos(getPosPlayer()+1);
+            break;
+            }
+        }
+
+        if(isSquareBox((getPosPlayer()+1)))
+        {
+           if(!(isSquareBox((getPosPlayer()+2*1))))
+                {
+                setPlayerPos(getPosPlayer()+1);
+                break;
+                }
+        }
+    break;
+
+    }
 
     return false;
 }
