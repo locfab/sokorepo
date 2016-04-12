@@ -161,6 +161,7 @@ bool Maze::updatePlayer(char dir)
     if(isSquareWalkable(newPos))
     {
         m_pos_player = Coord::getDirPos(m_pos_player,dir);
+        return false;
     }
     if(isSquareBox(newPos))
     {
@@ -171,20 +172,32 @@ bool Maze::updatePlayer(char dir)
                 posTabBox=i;
             }
         }
-        newPos=Coord::getDirPos(m_pos_boxes[posTabBox],dir);
+        unsigned short oldPos=newPos;
+        newPos=Coord::getDirPos(oldPos,dir);
 
-        if(_canPushBox(m_pos_boxes[posTabBox],dir,newPos))
+        if(_canPushBox(oldPos,dir,newPos))
         {
-            m_field[m_pos_boxes[posTabBox]] = SPRITE_GROUND;
-            for (int j=0; j<m_pos_goals.size(); j++)
-            {
-                if (m_pos_boxes[posTabBox] == m_pos_goals[j] )
+
+                if (m_field[newPos] == SPRITE_GOAL )
                 {
-                    m_field[m_pos_boxes[posTabBox]] = SPRITE_GOAL ;
+                    m_field[newPos] = SPRITE_BOX_PLACED;
+                    if (m_field[oldPos] == SPRITE_BOX_PLACED )
+                        m_field[oldPos] = SPRITE_GOAL;
+                    else
+                        m_field[oldPos] = SPRITE_GROUND;
                 }
-            }
+                else if (m_field[newPos] == SPRITE_GROUND )
+
+                {
+                    m_field[newPos] = SPRITE_BOX;
+                    if (m_field[oldPos] == SPRITE_BOX_PLACED )
+                        m_field[oldPos] = SPRITE_GOAL;
+                    else
+                        m_field[oldPos] = SPRITE_GROUND;
+                }
+
             m_pos_boxes[posTabBox] = newPos;
-            m_field[newPos] = SPRITE_BOX;
+            //m_field[newPos] = SPRITE_BOX;
             m_pos_player = Coord::getDirPos(m_pos_player,dir);
 
         }
