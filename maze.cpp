@@ -100,7 +100,7 @@ bool Maze::_load(const std::string& path)
                     // Need to add a goal and a box ;)
                     if (s == SPRITE_BOX_PLACED)
                     {
-                       both = true;
+                        both = true;
                     }
 
                     if (s == SPRITE_GOAL || both)
@@ -156,90 +156,44 @@ bool Maze::updatePlayer(char dir)
         return false;
     }
 
-   switch(dir)
-   {
-    case 0:
-        if(!(isSquareWall(getPosPlayer()-this->m_col)))
-        {
-            if(!isSquareBox((getPosPlayer()-this->m_col)))
-            {
-            setPlayerPos(getPosPlayer()-this->m_col);
-            break;
-            }
-        }
-
-        if(isSquareBox((getPosPlayer()-this->m_col)))
-        {
-           if(!(isSquareBox((getPosPlayer()-2*this->m_col))))
-                {
-                setPlayerPos(getPosPlayer()-this->m_col);
-
-                break;
-                }
-        }
-    break;
-    case 1:
-        if(!(isSquareWall(getPosPlayer()+this->m_col)))
-        {
-            if(!isSquareBox((getPosPlayer()+this->m_col)))
-            {
-            setPlayerPos(getPosPlayer()+this->m_col);
-            break;
-            }
-        }
-
-        if(isSquareBox((getPosPlayer()+this->m_col)))
-        {
-           if(!(isSquareBox((getPosPlayer()+2*this->m_col))))
-                {
-                setPlayerPos(getPosPlayer()+this->m_col);
-                break;
-                }
-        }
-    break;
-    case 2:
-        if(!(isSquareWall(getPosPlayer()-1)))
-        {
-            if(!isSquareBox((getPosPlayer()-1)))
-            {
-            setPlayerPos(getPosPlayer()-1);
-            break;
-            }
-        }
-
-        if(isSquareBox((getPosPlayer()-1)))
-        {
-           if(!(isSquareBox((getPosPlayer()-2*1))))
-                {
-                setPlayerPos(getPosPlayer()-1);
-                break;
-                }
-        }
-    break;
-    case 3:
-        if(!(isSquareWall(getPosPlayer()+1)))
-        {
-            if(!isSquareBox((getPosPlayer()+1)))
-            {
-            setPlayerPos(getPosPlayer()+1);
-            break;
-            }
-        }
-
-        if(isSquareBox((getPosPlayer()+1)))
-        {
-           if(!(isSquareBox((getPosPlayer()+2*1))))
-                {
-                setPlayerPos(getPosPlayer()+1);
-                break;
-                }
-        }
-    break;
-
+    int posTabBox=-1;
+    unsigned short newPos=Coord::getDirPos(m_pos_player,dir);
+    if(isSquareWalkable(newPos))
+    {
+        m_pos_player = Coord::getDirPos(m_pos_player,dir);
     }
+    if(isSquareBox(newPos))
+    {
+        for (int i=0; i<m_pos_boxes.size(); i++)
+        {
+            if (m_pos_boxes[i] == newPos )
+            {
+                posTabBox=i;
+            }
+        }
+        newPos=Coord::getDirPos(m_pos_boxes[posTabBox],dir);
 
-    return false;
+        if(_canPushBox(m_pos_boxes[posTabBox],dir,newPos))
+        {
+            m_field[m_pos_boxes[posTabBox]] = SPRITE_GROUND;
+            for (int j=0; j<m_pos_goals.size(); j++)
+            {
+                if (m_pos_boxes[posTabBox] == m_pos_goals[j] )
+                {
+                    m_field[m_pos_boxes[posTabBox]] = SPRITE_GOAL ;
+                }
+            }
+            m_pos_boxes[posTabBox] = newPos;
+            m_field[newPos] = SPRITE_BOX;
+            m_pos_player = Coord::getDirPos(m_pos_player,dir);
+
+        }
+    }
+    if(_isCompleted())return true;
+    else return false;
+
 }
+
 
 // Display maze on screen with Allegro
 void Maze::draw(const Graphic& g) const
@@ -312,3 +266,4 @@ std::ostream& operator << (std::ostream& O, const Maze& m)
 
     return O;
 }
+

@@ -20,7 +20,7 @@ int main()
     Console::getInstance()->setColor(_COLOR_DEFAULT);
 
     // Load level from a file
-    Maze m("./levels/medium/medium_1.dat");
+    Maze m("./levels/easy/easy_1.dat");
     if (!m.init()) return -1;
     std::cout << m << std::endl;
 
@@ -56,6 +56,8 @@ int main()
             g.clear();
             m.draw(g);
             g.display(Coord::m_nb_col);
+
+
         }
     }
 
