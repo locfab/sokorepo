@@ -659,5 +659,7 @@ bool Maze::caseOnDeadBloc()
     }
     return false;
 
-}
+} 
+
+
 
