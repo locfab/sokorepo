@@ -38,10 +38,12 @@ bool Graphic::_imageLoadSprites()
     this->pSprites[3] = imageLoad("images/caisse_ok.bmp");
     this->pSprites[4] = imageLoad("images/objectif.bmp");
     this->pSprites[5] = imageCreate(TX, TY, COLOR_ROSE);
-    this->pSprites[6] = imageCreate(TX, TY, COLOR_BLUE);
+    this->pSprites[6] = imageLoad("images/caisseBloquee.bmp");
     this->pSprites[7] = imageCreate(TX, TY, COLOR_YELLOW);
     this->pSprites[8] = imageCreate(TX, TY, COLOR_GREEN);
-    this->pSprites[9] = imageCreate(TX, TY, COLOR_CYAN);
+    //this->pSprites[9] = imageCreate(TX, TY, COLOR_GREEN);
+    this->pSprites[9] = imageLoad("images/deadlock.bmp");
+
 
     this->pSpritesPlayer[0] = imageLoad("images/mario_haut.bmp");
     this->pSpritesPlayer[1] = imageLoad("images/mario_bas.bmp");

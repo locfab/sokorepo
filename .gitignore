@@ -1,0 +1,15 @@
+*.o
+*.a
+bin/Debug/new_sokoban_solver.exe
+new_sokoban_solver.layout
+new_sokoban_solver.depend
+obj/Debug/*.a
+obj/Debug/*.o
+obj/Debug/utils/*.o
+obj/Debug/utils/*.a
+
+
+
+
+
+
