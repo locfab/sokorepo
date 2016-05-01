@@ -491,7 +491,6 @@ bool Maze::doublon(std::vector <SauvInfo> sauvegarde)
 {
     for(int j=sauvegarde.size()-1; j>=0; j--)
     {
-
         if(sauvegarde[j].getPosPlayer()==m_pos_player && sauvegarde[j].getPosBoxes()==m_pos_boxes)
         {
             return true;
