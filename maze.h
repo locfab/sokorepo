@@ -44,7 +44,10 @@ class Maze
         std::vector<unsigned short> m_pos_boxes; // box positions
         std::vector<unsigned short> m_pos_goals; // goal positions
         std::vector<unsigned short> m_pos_deadBloc;
+
+
         std::vector<unsigned short> m_tabDir;
+        std::vector<SauvInfo> m_boxVectDir;
 
 
         std::vector<unsigned short> pos_boxesSauv;
@@ -75,6 +78,8 @@ class Maze
         bool isSquareGoal(unsigned short pos) const;
         bool isSquareWall(unsigned short pos) const;
         bool isSquareBoxPlaced(unsigned short pos) const;
+        bool isSquareBoxNonPlaced(unsigned short pos) const;
+
 
         // Other getters
         const std::string& getLevelPath() const;
@@ -91,7 +96,9 @@ class Maze
 
         bool brutForce(bool deadBloc);
         bool bfs(bool deadBloc);
+        bool bfsCaseMoveOnly(bool deadBloc);
         bool dfs(bool deadBloc);
+        bool heuristique(bool deadBloc);
 
         //fonction pour les bfs,dfs,brutfoce
         void animTabDir(Graphic g);
@@ -101,6 +108,24 @@ class Maze
                           std::vector<unsigned short> pos_boxes);
         void afficherInfoTabDir();
         bool pileModifiee(int sizePileActu, int sizePileAncienne);
+        bool caseBoxMoveDifferently(std::vector <SauvInfo> tab1, int rangDebut, bool withZone);
+        int posDansTab(std::vector <SauvInfo> tab1, SauvInfo tab2);
+        bool updatePosBox(char dir, int indiceVect);
+        bool updatePosBoxDirectly(char dir, int indiceVect);
+        bool backTrack(std::vector <SauvInfo> sauvegarde);
+        void generateBoxVectDir(std::vector <SauvInfo> sauvegarde);
+        bool verifPossibilityMove(SauvInfo caseEgale);
+        int poid();
+
+        std::vector <bool> createZone();
+
+
+
+
+
+
+
+
 
         //pour les deadbloc
         void detecteDeadBloc();
@@ -160,6 +185,10 @@ inline bool Maze::isSquareWall(unsigned short pos) const
 inline bool Maze::isSquareBoxPlaced(unsigned short pos) const
 {
     return (this->m_field[pos] == SPRITE_BOX_PLACED ? true : false);
+}
+inline bool Maze::isSquareBoxNonPlaced(unsigned short pos) const
+{
+    return ((this->m_field[pos] == SPRITE_BOX ) ? true : false);
 }
 
 #endif // MAZE_H_INCLUDED
